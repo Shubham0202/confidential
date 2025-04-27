@@ -4,8 +4,8 @@ import Main from './main/Main'
 
 const Home = () => {
   return (
-    <div className='flex items-start '>
-        <Aside/>
+    <div className='flex items-start'>
+        {/* <Aside/> */}
         <Main/>
 
     </div>

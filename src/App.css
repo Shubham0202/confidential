@@ -1,0 +1,3 @@
+.screen-adjust{
+    min-height: calc(100%-61px);
+}

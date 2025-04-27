@@ -9,6 +9,9 @@ export default {
       minWidth:{
         promptSize:'600px',
         'mobile-prompt-size':'90%',
+      },
+      minHeight:{
+      
       }
     },
   },

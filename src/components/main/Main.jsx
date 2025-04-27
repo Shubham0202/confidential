@@ -4,7 +4,7 @@ import Start from './Start'
 
 const Main = () => {
     return (
-        <div className='w-full min-h-dvh items-center flex justify-between flex-col'>
+        <div className='w-full min-h-dvh border-4 items-center flex justify-between flex-col'>
             <Navbar />
             <h2 className="sm:hidden font-bold text-3xl text-center my-2">What can I help with ?</h2>
             <Start />
