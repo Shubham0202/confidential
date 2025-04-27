@@ -8,7 +8,7 @@ export default {
     extend: {
       minWidth:{
         promptSize:'600px',
-        'mobile-prompt-size':'90%',
+        'mobile-prompt-size':'95%',
       },
       minHeight:{
       
