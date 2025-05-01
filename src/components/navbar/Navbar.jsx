@@ -12,7 +12,7 @@ const Navbar = () => {
                 <PencilSquareIcon className='w-7 h-7'/>
                 </div>
                 <div className="flex items-center cursor-default">
-                    <h3 className="font-semibold text-xl">ChatGPT</h3>
+                    <h3 className="font-semibold text-xl">{import.meta.env.VITE_API_NAME}</h3>
                     <ChevronDownIcon className='w-8 h-8'/>
                 </div>
                 {/* <NotLogin/> */}

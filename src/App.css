@@ -1,3 +1,5 @@
-.screen-adjust{
-    min-height: calc(100%-61px);
+
+.output-screen{
+    height: calc(100dvh - 220px);
+    
 }
