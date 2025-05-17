@@ -11,7 +11,7 @@ const Main = () => {
             <Navbar />
            {isOutputComponentActive?<Output/>:<h2 className="sm:hidden font-bold text-3xl text-center my-2">What can I help with ?</h2>}
             {!isOutputComponentActive?<Start/>:
-            <div className="w-full">
+            <div className="w-full grid place-items-center">
             <Input/>
             <p className="text-center text-sm sm:text-base sm:block m-2">By messaging {import.meta.env.VITE_API_NAME}, you agree to our Terms and have read our Privacy Policy.</p>
             </div>

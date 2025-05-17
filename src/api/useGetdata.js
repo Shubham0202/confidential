@@ -4,7 +4,10 @@ import { context } from '../context/ChatbotContext';
 
 const useGetData = () => {
 
-    const { data, error, loading, setData, setError, setLoading } = useContext(context)
+    const [data, setData] = useState(null);
+    const {loading, setLoading} = useContext(context);
+    const [error, setError] = useState(null);
+    const {setAPIError} = useContext(context);
     const fetchData = async (userInput) => {
         setError(null);
         setLoading(true);
@@ -15,14 +18,18 @@ const useGetData = () => {
                 { query: userInput }
             );
             setData(response.data);
+            console.log(response.data);
+            return response.data;
         } catch (err) {
             console.error(err);
+            setAPIError(err);
             setError(err);
         } finally {
             setLoading(false);
         }
+       
     };
-
+    
     return { data, loading, error, fetchData };
 };
 

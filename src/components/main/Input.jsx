@@ -1,21 +1,49 @@
 import { PaperClipIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 import { context } from '../../context/ChatbotContext';
 import useGetData from '../../api/useGetdata';
 
 const Input = ({ className }) => {
-  const { input, setInput,userInputs,setUserInputs } = useContext(context);
+  const { input, setInput, userInputs, setUserInputs, setModelAnswers } = useContext(context);
   const inputRef = useRef(null);
-  const { data, error, loading, fetchData } = useGetData();
+  const { fetchData } = useGetData();
 
-  const handleSubmit = (e) => {
+  const [cache, setCache] = useState(new Map());
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    console.log('Input submitted:', input);
-    setUserInputs(prev =>[...prev, input]);
-    fetchData(input); // 🔥 Call the API manually here
-    setInput('');
+    const trimmedInput = input.trim();
+
+    if (cache.has(trimmedInput)) {
+      // Use cached response
+      const cachedResponse = cache.get(trimmedInput);
+      setUserInputs((prev) => [...prev, trimmedInput]);
+      setInput(''); // clear field immediately
+
+      setModelAnswers((prev) => [...prev, cachedResponse]);
+      console.log("Used cached response.");
+      return;
+    }
+
+    // Otherwise, fetch from server
+    try {
+      const result = await fetchData(trimmedInput);
+      if (result?.response) {
+        setUserInputs((prev) => [...prev, trimmedInput]);
+        setInput(''); // clear field immediately
+        setModelAnswers((prev) => [...prev, result.response]);
+
+
+        // Save to cache
+        setCache((prevCache) => new Map(prevCache).set(trimmedInput, result.response));
+      } else {
+        console.warn("No valid response received");
+      }
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
   };
 
   const handleChange = (e) => {
@@ -24,12 +52,10 @@ const Input = ({ className }) => {
 
   useEffect(() => {
     inputRef.current?.focus();
-    console.log(data);
-    console.log(userInputs)
-  }, [data]);
+  }, []);
 
   return (
-    <div className={`shadow border rounded-2xl p-4 ${className}`}>
+    <div className={`shadow border rounded-2xl w-full sm:w-[600px] p-4 ${className}`}>
       <input
         ref={inputRef}
         onChange={handleChange}
