@@ -2,10 +2,10 @@ import { PaperClipIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import { context } from '../../context/ChatbotContext';
 import useGetData from '../../api/useGetdata';
+import { TableCellsIcon } from '@heroicons/react/24/solid';
 
 const Input = ({ className }) => {
-  const { input, setInput, userInputs, setUserInputs, setModelAnswers } = useContext(context);
-  const inputRef = useRef(null);
+  const { inputRef, input, setInput, userInputs, setUserInputs, setModelAnswers } = useContext(context);
   const { fetchData } = useGetData();
 
   const [cache, setCache] = useState(new Map());
@@ -50,6 +50,11 @@ const Input = ({ className }) => {
     setInput(e.target.value);
   };
 
+  function SelectCurrentButton(e){
+    const active = e.target.closest('.table-format');
+    (active.classList.contains('active-option'))?active.classList.remove('active-option','bg-black','text-white'):active.classList.add('active-option','bg-black','rounded-full','text-white')
+    console.log();
+  }
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -70,9 +75,16 @@ const Input = ({ className }) => {
         }}
       />
       <div className="actions flex items-center justify-between mt-2">
-        <div className="attach-file flex items-center sm:cursor-pointer">
-          <PaperClipIcon className="w-5 h-5" />
-          <p>Attach</p>
+        <div className="flex items-center gap-2">
+
+          <div className="attach-file px-4 py-1.5 flex items-center sm:cursor-pointer">
+            <PaperClipIcon className="w-5 h-5" />
+            <p>Attach</p>
+          </div>
+          <div onClick={SelectCurrentButton} className="table-format flex items-center sm:cursor-pointer px-4 py-1.5 transition-colors duration-300 rounded-full">
+            <TableCellsIcon className="w-5 h-5 mr-2" />
+            <p>Show Table</p>
+          </div>
         </div>
         <div
           onClick={handleSubmit}

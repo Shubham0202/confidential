@@ -1,4 +1,4 @@
-import { React, createContext, useState } from 'react'
+import { React, createContext, useState,useRef } from 'react'
 
 export const context = createContext();
 
@@ -7,8 +7,10 @@ const ChatbotContext = ({ children }) => {
   const [input, setInput] = useState('');
   const [userInputs, setUserInputs] = useState([]);
   const [modelAnswers, setModelAnswers] = useState([]);
-  const [APIError,setAPIError]= useState(null);
-  const [loading,setLoading] = useState(false);
+  const [APIError, setAPIError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef(null);
+
   const contextValue = {
     messages,
     setMessages,
@@ -21,7 +23,8 @@ const ChatbotContext = ({ children }) => {
     APIError,
     setAPIError,
     loading,
-    setLoading
+    setLoading,
+    inputRef,
   }
   return (
     <context.Provider value={contextValue}>

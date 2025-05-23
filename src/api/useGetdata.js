@@ -15,7 +15,7 @@ const useGetData = () => {
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_API_URL}/chat`,
-                { query: userInput }
+                { prompt: userInput }
             );
             setData(response.data);
             console.log(response.data);
