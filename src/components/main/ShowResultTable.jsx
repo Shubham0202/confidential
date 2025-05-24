@@ -1,6 +1,7 @@
 
-import { useState } from "react"
-import { ArrowDownIcon, ArrowUpIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline"
+import { useContext, useEffect, useRef, useState } from "react"
+import { ArrowDownIcon, ArrowUpIcon, MagnifyingGlassIcon, XCircleIcon } from "@heroicons/react/24/outline"
+import { context } from "../../context/ChatbotContext"
 
 export default function DataTable() {
   // Sample data for the table
@@ -13,13 +14,15 @@ export default function DataTable() {
     { id: 6, name: "Sarah Brown", email: "sarah@example.com", role: "Editor", status: "Active" },
     { id: 7, name: "David Miller", email: "david@example.com", role: "User", status: "Active" },
     { id: 8, name: "Lisa Anderson", email: "lisa@example.com", role: "User", status: "Inactive" },
+   
   ]
 
   const [data, setData] = useState(initialData)
   const [sortField, setSortField] = useState("")
   const [sortDirection, setSortDirection] = useState("asc")
   const [searchTerm, setSearchTerm] = useState("")
-
+  const searchbarRef = useRef(null);
+  const { setIsTableActive } = useContext(context);
   // Handle sorting
   const handleSort = (field) => {
     const newDirection = sortField === field && sortDirection === "asc" ? "desc" : "asc"
@@ -60,20 +63,36 @@ export default function DataTable() {
     )
   }
 
+  // Handle Table visibility
+  const hideEntireComponent = () => {
+    setIsTableActive(false);
+  }
+  useEffect(() => {
+    // focus on searchbar when component loaded
+    searchbarRef.current?.focus();
+  }, [])
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
-      <div className="mb-4 flex items-center">
-        <div className="relative w-full max-w-sm">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+      {/* searchbar */}
+      <div className="flex items-center justify-between mb-2 sticky top-3 z-10">
+        <div className="mb-4 flex items-center w-full sm:w-1/2">
+          <div className="relative w-full max-w-sm">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              ref={searchbarRef}
+              type="text"
+              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
           </div>
-          <input
-            type="text"
-            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
+        </div>
+
+        <div onClick={hideEntireComponent} className="sm:cursor-pointer bg-white p-2 rounded-full">
+          <XCircleIcon className="w-10 h-10"/>
         </div>
       </div>
 
@@ -102,7 +121,7 @@ export default function DataTable() {
             {data.length > 0 ? (
               data.map((item, index) => (
                 <tr
-                  key={item.id}
+                  key={item.id+item.name}
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} border-b hover:bg-gray-100`}
                 >
                   <td className="py-4 px-6">{item.id}</td>
@@ -111,9 +130,8 @@ export default function DataTable() {
                   <td className="py-4 px-6">{item.role}</td>
                   <td className="py-4 px-6">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        item.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                      }`}
+                      className={`px-2 py-1 rounded-full text-xs ${item.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        }`}
                     >
                       {item.status}
                     </span>

@@ -10,7 +10,7 @@ const ChatbotContext = ({ children }) => {
   const [APIError, setAPIError] = useState(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
-
+  const [isTableActive,setIsTableActive] = useState(false);
   const contextValue = {
     messages,
     setMessages,
@@ -25,6 +25,8 @@ const ChatbotContext = ({ children }) => {
     loading,
     setLoading,
     inputRef,
+    isTableActive,
+    setIsTableActive,
   }
   return (
     <context.Provider value={contextValue}>

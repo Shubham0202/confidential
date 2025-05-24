@@ -3,14 +3,14 @@ import Aside from './aside/Aside'
 import Main from './main/Main'
 import Offline from '../components/Offline';
 import { context } from '../context/ChatbotContext';
-import Table from '../components/main/Table'
+import Table from './main/ShowResultTable'
 const Home = () => {
 
   return (
     <div className='flex items-start'>
       {/* <Aside/> */}
-      {/* <Main /> */}
-      <Table/>
+      <Main />
+      {/* <Table/> */}
     </div>
   )
 }

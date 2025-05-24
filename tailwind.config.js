@@ -12,6 +12,9 @@ export default {
       },
       minHeight:{
       
+      },
+      colors:{
+        'transparent-black': '#0000005f',
       }
     },
   },

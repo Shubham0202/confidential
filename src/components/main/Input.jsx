@@ -5,7 +5,7 @@ import useGetData from '../../api/useGetdata';
 import { TableCellsIcon } from '@heroicons/react/24/solid';
 
 const Input = ({ className }) => {
-  const { inputRef, input, setInput, userInputs, setUserInputs, setModelAnswers } = useContext(context);
+  const { inputRef, input, setInput, userInputs, setUserInputs, setModelAnswers, setIsTableActive } = useContext(context);
   const { fetchData } = useGetData();
 
   const [cache, setCache] = useState(new Map());
@@ -50,10 +50,8 @@ const Input = ({ className }) => {
     setInput(e.target.value);
   };
 
-  function SelectCurrentButton(e){
-    const active = e.target.closest('.table-format');
-    (active.classList.contains('active-option'))?active.classList.remove('active-option','bg-black','text-white'):active.classList.add('active-option','bg-black','rounded-full','text-white')
-    console.log();
+  function SelectCurrentButton() {
+    setIsTableActive(true);
   }
   useEffect(() => {
     inputRef.current?.focus();
