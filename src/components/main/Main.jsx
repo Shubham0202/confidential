@@ -7,10 +7,9 @@ import DataTable from './ShowResultTable';
 import { context } from '../../context/ChatbotContext';
 
 const Main = () => {
-    const [isOutputComponentActive,setIsOutputComponentActive] = useState(true);
-    const {isTableActive} = useContext(context);
+    const {isOutputComponentActive,isTableActive} = useContext(context);
     return (
-        <div className={`w-full min-h-dvh items-center flex ${isOutputComponentActive? 'justify-between':null} flex-col`}>
+        <div className={`w-full min-h-dvh items-center flex justify-between flex-col`}>
             {
                 isTableActive?(
                     <div className='absolute top-0 left-0 w-full h-full min-h-dvh overflow-y-scroll bg-transparent-black'>
@@ -26,6 +25,7 @@ const Main = () => {
             <p className="text-center text-sm sm:text-base sm:block m-2">By messaging {import.meta.env.VITE_API_NAME}, you agree to our Terms and have read our Privacy Policy.</p>
             </div>
             }
+            {!isOutputComponentActive && <div className='hidden sm:block'></div>}
 
         </div>
     )

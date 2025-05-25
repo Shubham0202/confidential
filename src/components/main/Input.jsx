@@ -5,13 +5,17 @@ import useGetData from '../../api/useGetdata';
 import { TableCellsIcon } from '@heroicons/react/24/solid';
 
 const Input = ({ className }) => {
-  const { inputRef, input, setInput, modelAnswers, setUserInputs, setModelAnswers, setIsTableActive } = useContext(context);
+  const { inputRef, input, setInput, modelAnswers, setUserInputs, setModelAnswers, setIsTableActive,setIsOutputComponentActive } = useContext(context);
   const { fetchData } = useGetData();
 
   const [cache, setCache] = useState(new Map());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // show output component
+    setIsOutputComponentActive(true);
+    // add readonly mode
+    inputRef.current.setAttribute('readonly',true);
     if (!input.trim()) return;
 
     const trimmedInput = input.trim();
@@ -27,6 +31,7 @@ const Input = ({ className }) => {
 
       setModelAnswers((prev) => [...prev, cachedResponse]);
       console.log("Used cached response.");
+      inputRef.current.removeAttribute('readonly');
       return;
     }
 
@@ -46,6 +51,9 @@ const Input = ({ className }) => {
       }
     } catch (err) {
       console.error("Error fetching data:", err);
+    }
+    finally{
+      inputRef.current.removeAttribute('readonly');
     }
   };
 

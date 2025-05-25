@@ -11,6 +11,8 @@ const ChatbotContext = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
   const [isTableActive,setIsTableActive] = useState(false);
+  const [isOutputComponentActive,setIsOutputComponentActive] = useState(false);
+      
   const contextValue = {
     messages,
     setMessages,
@@ -27,6 +29,8 @@ const ChatbotContext = ({ children }) => {
     inputRef,
     isTableActive,
     setIsTableActive,
+    isOutputComponentActive,
+    setIsOutputComponentActive,
   }
   return (
     <context.Provider value={contextValue}>

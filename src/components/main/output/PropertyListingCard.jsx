@@ -1,5 +1,4 @@
 import { BuildingOffice2Icon, MapPinIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
-import { useEffect } from "react";
 export default function PropertyListingCard({ apartment }) {
   const {
     title,
@@ -13,23 +12,24 @@ export default function PropertyListingCard({ apartment }) {
   } = apartment;
 
   // generate a random image for getting propertyListingCard
-  function generateRandomImage(size=4){
-    let url ='';
-    let random = Math.floor(Math.random()*size+1);
-    url =`/src/assets/dummyImg/img${random}.jpg`;
-    // console.log(url)
-    return url
+  function generateRandomImage(size = 4) {
+    let url = '';
+    let random = Math.floor(Math.random() * size + 1);
+    const path = window.location;
+
+      // remove src in url when you perform npm run build 
+      url = `src/assets/dummyImg/img${random}.jpg`;
+      // console.log(url)
+      return url
   }
 
-  useEffect(()=>{
-    console.log("Proerty Rendered")
-  },[])
+
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
       {/* Property Image */}
       <div className="relative">
         <img
-          src={generateRandomImage() ||'https://kzmqk2xjvesnk7ie3i45.lite.vusercontent.net/placeholder.svg?height=200&width=400' }
+          src={generateRandomImage() || 'https://kzmqk2xjvesnk7ie3i45.lite.vusercontent.net/placeholder.svg?height=200&width=400'}
           alt={title}
           className="w-full h-48 object-cover"
         />
