@@ -3,6 +3,10 @@
     height: calc(100dvh - 230px);
     
 }
+.auto-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
 .color-test{
     color: #0000005f;
 }

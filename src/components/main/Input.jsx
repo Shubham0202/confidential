@@ -5,7 +5,7 @@ import useGetData from '../../api/useGetdata';
 import { TableCellsIcon } from '@heroicons/react/24/solid';
 
 const Input = ({ className }) => {
-  const { inputRef, input, setInput, userInputs, setUserInputs, setModelAnswers, setIsTableActive } = useContext(context);
+  const { inputRef, input, setInput, modelAnswers, setUserInputs, setModelAnswers, setIsTableActive } = useContext(context);
   const { fetchData } = useGetData();
 
   const [cache, setCache] = useState(new Map());
@@ -19,6 +19,9 @@ const Input = ({ className }) => {
     if (cache.has(trimmedInput)) {
       // Use cached response
       const cachedResponse = cache.get(trimmedInput);
+      // console.log("cachedInput:"+cachedResponse);
+
+
       setUserInputs((prev) => [...prev, trimmedInput]);
       setInput(''); // clear field immediately
 
@@ -30,14 +33,14 @@ const Input = ({ className }) => {
     // Otherwise, fetch from server
     try {
       const result = await fetchData(trimmedInput);
-      if (result?.response) {
+      if (result?.message || result?.results) {
         setUserInputs((prev) => [...prev, trimmedInput]);
         setInput(''); // clear field immediately
-        setModelAnswers((prev) => [...prev, result.response]);
+        setModelAnswers((prev) => [...prev, result]);
 
 
         // Save to cache
-        setCache((prevCache) => new Map(prevCache).set(trimmedInput, result.response));
+        setCache((prevCache) => new Map(prevCache).set(trimmedInput, result))
       } else {
         console.warn("No valid response received");
       }
@@ -75,11 +78,11 @@ const Input = ({ className }) => {
       <div className="actions flex items-center justify-between mt-2">
         <div className="flex items-center gap-2">
 
-          <div className="attach-file px-4 py-1.5 flex items-center sm:cursor-pointer">
+          <div className="attach-file px-4 py-1.5 flex items-center sm:cursor-pointer rounded-full hover:bg-gray-100">
             <PaperClipIcon className="w-5 h-5" />
             <p>Attach</p>
           </div>
-          <div onClick={SelectCurrentButton} className="table-format flex items-center sm:cursor-pointer px-4 py-1.5 transition-colors duration-300 rounded-full">
+          <div onClick={(modelAnswers.length!=0 && modelAnswers[modelAnswers.length-1]?.results)?SelectCurrentButton:null} className={`table-format flex items-center sm:cursor-pointer px-4 py-1.5 transition-colors duration-300 rounded-full hover:bg-gray-100 ${( modelAnswers[modelAnswers.length-1]?.results == undefined || modelAnswers.length ==0)?'hover:cursor-not-allowed':null }`}>
             <TableCellsIcon className="w-5 h-5 mr-2" />
             <p>Show Table</p>
           </div>
