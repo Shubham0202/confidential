@@ -32,7 +32,7 @@ const Output = () => {
     scrollEl.scrollTop = scrollEl.scrollHeight;
     // console.log("ModelAnswers:",modelAnswers);
     // console.log(interleavedMessages);
-    console.log("rendered");
+    // console.log("rendered");
   }, [userInputs, modelAnswers]);
 
   return (
